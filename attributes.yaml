@@ -1,4 +1,4 @@
 color: [red, blue, green, black, white, silver, transparent, multicolor, unknown]
-material: [plastic, metal, wood, glass, fabric, unknown]
+material: [plastic, metal, wood, glass, fabric, ceramic, unknown]
 condition: [new, used, broken, unknown]
-
+size: [small, medium, large, unknown]
