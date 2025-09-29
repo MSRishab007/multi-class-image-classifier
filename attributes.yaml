@@ -1,0 +1,4 @@
+color: [red, blue, green, black, white, silver, transparent, multicolor, unknown]
+material: [plastic, metal, wood, glass, fabric, unknown]
+condition: [new, used, broken, unknown]
+
