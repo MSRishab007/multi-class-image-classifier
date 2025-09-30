@@ -1,0 +1,181 @@
+image_path	class_label	attributes	caption	split	instance_id
+images\team9_keyboard_01_a.jpg	keyboard	color:black;material:plastic;condition:used,size:medium	black old keyboard top view	train	team9_keyboard_01
+images\team9_keyboard_01_b.jpg	keyboard	color:black;material:plastic;condition:used,size:medium	black old keyboard rotated top view	train	team9_keyboard_01
+images\team9_keyboard_01_c.jpg	keyboard	color:black;material:plastic;condition:used,size:medium	black old keyboard top view	train	team9_keyboard_01
+images\team9_keyboard_01_d.jpg	keyboard	color:black;material:plastic;condition:used,size:medium	black old keyboard slant view	train	team9_keyboard_01
+images\team9_keyboard_02_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black new keyboard top view	train	team9_keyboard_02
+images\team9_keyboard_02_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black new keyboard slant view	train	team9_keyboard_02
+images\team9_keyboard_02_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black new keyboard slant view	train	team9_keyboard_02
+images\team9_keyboard_02_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black new keyboard top view	train	team9_keyboard_02
+images\team9_keyboard_03_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard side view	train	team9_keyboard_03
+images\team9_keyboard_03_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_03
+images\team9_keyboard_03_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard slant view	train	team9_keyboard_03
+images\team9_keyboard_03_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_03
+images\team9_keyboard_04_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_04
+images\team9_keyboard_04_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_04
+images\team9_keyboard_04_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard slant view	train	team9_keyboard_04
+images\team9_keyboard_04_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard rotated view	train	team9_keyboard_04
+images\team9_keyboard_05_a.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keyboard  top view	train	team9_keyboard_05
+images\team9_keyboard_05_b.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keyboard  top view	train	team9_keyboard_05
+images\team9_keyboard_05_c.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keyboard  top view	train	team9_keyboard_05
+images\team9_keyboard_05_d.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keyboard  rotated view	train	team9_keyboard_05
+images\team9_keyboard_06_a.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	light green keyboard top view	val	team9_keyboard_06
+images\team9_keyboard_06_b.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	light green keyboard top view	val	team9_keyboard_06
+images\team9_keyboard_06_c.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	light green keyboard top view	val	team9_keyboard_06
+images\team9_keyboard_06_d.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	light green keyboard slant view	val	team9_keyboard_06
+images\team9_keyboard_07_a.jpg	keyboard	color:white;material:plastic;condition:new,size:medium	white keyboard top view	train	team9_keyboard_07
+images\team9_keyboard_07_b.jpg	keyboard	color:white;material:plastic;condition:new,size:medium	light green keyboard top view	train	team9_keyboard_07
+images\team9_keyboard_07_c.jpg	keyboard	color:white;material:plastic;condition:new,size:medium	light green keyboard top view	train	team9_keyboard_07
+images\team9_keyboard_07_d.jpg	keyboard	color:white;material:plastic;condition:new,size:medium	light green keyboard top view	train	team9_keyboard_07
+images\team9_keyboard_08_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_08
+images\team9_keyboard_08_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_08
+images\team9_keyboard_08_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard slanted view	train	team9_keyboard_08
+images\team9_keyboard_08_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_08
+images\team9_keyboard_09_a.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keys black keyboard slanted view	val	team9_keyboard_09
+images\team9_keyboard_09_b.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keys black keyboard topview	val	team9_keyboard_09
+images\team9_keyboard_09_c.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keys black keyboard topview	val	team9_keyboard_09
+images\team9_keyboard_09_d.jpg	keyboard	color:green;material:plastic;condition:new,size:medium	green keys black keyboard topview	val	team9_keyboard_09
+images\team9_keyboard_10_a.jpg	keyboard	color:multicolor;material:plastic;condition:new,size:medium	multicolor keyboard top view	train	team9_keyboard_10
+images\team9_keyboard_10_b.jpg	keyboard	color:multicolor;material:plastic;condition:new,size:medium	multicolor keyboard top view	train	team9_keyboard_10
+images\team9_keyboard_10_c.jpg	keyboard	color:multicolor;material:plastic;condition:new,size:medium	multicolor keyboard slanted view	train	team9_keyboard_10
+images\team9_keyboard_10_d.jpg	keyboard	color:multicolor;material:plastic;condition:new,size:medium	multicolor keyboard top view	train	team9_keyboard_10
+images\team9_keyboard_11_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	slim black keyboard slanted view	train	team9_keyboard_11
+images\team9_keyboard_11_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	slim black keyboard rptated top view	train	team9_keyboard_11
+images\team9_keyboard_11_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	slim black keyboard top view	train	team9_keyboard_11
+images\team9_keyboard_11_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	slim black keyboard top view	train	team9_keyboard_11
+images\team9_keyboard_12_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	smaller black keyboard top view	train	team9_keyboard_12
+images\team9_keyboard_12_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	smaller black keyboard top view	train	team9_keyboard_12
+images\team9_keyboard_12_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	smaller black keyboard rotated top view	train	team9_keyboard_12
+images\team9_keyboard_12_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	smaller black keyboard slanted view	train	team9_keyboard_12
+images\team9_keyboard_13_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_13
+images\team9_keyboard_13_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_13
+images\team9_keyboard_13_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard slanted view	train	team9_keyboard_13
+images\team9_keyboard_13_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	train	team9_keyboard_13
+images\team9_keyboard_14_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	coloured key black keyboard top view	train	team9_keyboard_14
+images\team9_keyboard_14_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	coloured key black keyboard top view	train	team9_keyboard_14
+images\team9_keyboard_14_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	coloured key black keyboard top view	train	team9_keyboard_14
+images\team9_keyboard_14_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	coloured key black keyboard top view	train	team9_keyboard_14
+images\team9_keyboard_15_a.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	val	team9_keyboard_15
+images\team9_keyboard_15_b.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	val	team9_keyboard_15
+images\team9_keyboard_15_c.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard slanted view	val	team9_keyboard_15
+images\team9_keyboard_15_d.jpg	keyboard	color:black;material:plastic;condition:new,size:medium	black keyboard top view	val	team9_keyboard_15
+images\team9_mouse_01_a.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_01
+images\team9_mouse_01_b.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_01
+images\team9_mouse_01_c.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_01
+images\team9_mouse_01_d.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_01
+images\team9_mouse_02_a.jpg	mouse	color:transparent;material:plastic;condition:new,size:small		train	team9_mouse_02
+images\team9_mouse_02_b.jpg	mouse	color:transparent;material:plastic;condition:new,size:small		train	team9_mouse_02
+images\team9_mouse_02_c.jpg	mouse	color:transparent;material:plastic;condition:new,size:small		train	team9_mouse_02
+images\team9_mouse_02_d.jpg	mouse	color:transparent;material:plastic;condition:new,size:small		train	team9_mouse_02
+images\team9_mouse_03_a.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_03
+images\team9_mouse_03_b.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_03
+images\team9_mouse_03_c.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_03
+images\team9_mouse_03_d.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_03
+images\team9_mouse_04_a.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_04
+images\team9_mouse_04_b.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_04
+images\team9_mouse_04_c.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_04
+images\team9_mouse_04_d.jpg	mouse	color:black;material:plastic;condition:used,size:small		train	team9_mouse_04
+images\team9_mouse_05_a.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_05
+images\team9_mouse_05_b.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_05
+images\team9_mouse_05_c.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_05
+images\team9_mouse_05_d.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_05
+images\team9_mouse_06_a.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_06
+images\team9_mouse_06_b.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_06
+images\team9_mouse_06_c.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_06
+images\team9_mouse_06_d.jpg	mouse	color:black;material:plastic;condition:new,size:small		train	team9_mouse_06
+images\team9_mouse_07_a.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_07
+images\team9_mouse_07_b.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_07
+images\team9_mouse_07_c.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_07
+images\team9_mouse_07_d.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_07
+images\team9_mouse_08_a.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_08
+images\team9_mouse_08_b.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_08
+images\team9_mouse_08_c.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_08
+images\team9_mouse_08_d.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_08
+images\team9_mouse_09_a.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_09
+images\team9_mouse_09_b.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_09
+images\team9_mouse_09_c.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_09
+images\team9_mouse_09_d.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_09
+images\team9_mouse_10_a.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_10
+images\team9_mouse_10_b.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_10
+images\team9_mouse_10_c.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_10
+images\team9_mouse_10_d.jpg	mouse	color:white;material:plastic;condition:new,size:small		train	team9_mouse_10
+images\team9_mouse_11_a.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_11
+images\team9_mouse_11_b.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_11
+images\team9_mouse_11_c.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_11
+images\team9_mouse_11_d.jpg	mouse	color:black;material:plastic;condition:new,size:small		val	team9_mouse_11
+images\team9_mouse_12_a.jpg	mouse	color:unknown;material:plastic;condition:new,size:small		train	team9_mouse_12
+images\team9_mouse_12_b.jpg	mouse	color:unknown;material:plastic;condition:new,size:small		train	team9_mouse_12
+images\team9_mouse_12_c.jpg	mouse	color:unknown;material:plastic;condition:new,size:small		train	team9_mouse_12
+images\team9_mouse_12_d.jpg	mouse	color:unknown;material:plastic;condition:new,size:small		train	team9_mouse_12
+images\team9_mouse_13_a.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_13
+images\team9_mouse_13_b.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_13
+images\team9_mouse_13_c.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_13
+images\team9_mouse_13_d.jpg	mouse	color:green;material:plastic;condition:new,size:small		train	team9_mouse_13
+images\team9_mouse_14_a.jpg	mouse	color:blue;material:plastic;condition:new,size:small		train	team9_mouse_14
+images\team9_mouse_14_b.jpg	mouse	color:blue;material:plastic;condition:new,size:small		train	team9_mouse_14
+images\team9_mouse_14_c.jpg	mouse	color:blue;material:plastic;condition:new,size:small		train	team9_mouse_14
+images\team9_mouse_14_d.jpg	mouse	color:blue;material:plastic;condition:new,size:small		train	team9_mouse_14
+images\team9_mouse_15_a.jpg	mouse	color:multicolor;material:plastic;condition:new,size:small		val	team9_mouse_15
+images\team9_mouse_15_b.jpg	mouse	color:multicolor;material:plastic;condition:new,size:small		val	team9_mouse_15
+images\team9_mouse_15_c.jpg	mouse	color:multicolor;material:plastic;condition:new,size:small		val	team9_mouse_15
+images\team9_mouse_15_d.jpg	mouse	color:multicolor;material:plastic;condition:new,size:small		val	team9_mouse_15
+images\team9_sneakers_01_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_01
+images\team9_sneakers_01_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_01
+images\team9_sneakers_01_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_01
+images\team9_sneakers_01_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_01
+images\team9_sneakers_02_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_02
+images\team9_sneakers_02_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_02
+images\team9_sneakers_02_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_02
+images\team9_sneakers_02_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_02
+images\team9_sneakers_03_a.jpg	sneakers	color:black;material:fabric;condition:new,size:medium		val	team9_sneakers_03
+images\team9_sneakers_03_b.jpg	sneakers	color:black;material:fabric;condition:new,size:medium		val	team9_sneakers_03
+images\team9_sneakers_03_c.jpg	sneakers	color:black;material:fabric;condition:new,size:medium		val	team9_sneakers_03
+images\team9_sneakers_03_d.jpg	sneakers	color:black;material:fabric;condition:new,size:medium		val	team9_sneakers_03
+images\team9_sneakers_04_a.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_04
+images\team9_sneakers_04_b.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_04
+images\team9_sneakers_04_c.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_04
+images\team9_sneakers_04_d.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_04
+images\team9_sneakers_05_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_05
+images\team9_sneakers_05_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_05
+images\team9_sneakers_05_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_05
+images\team9_sneakers_05_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_05
+images\team9_sneakers_06_a.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		val	team9_sneakers_06
+images\team9_sneakers_06_b.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		val	team9_sneakers_06
+images\team9_sneakers_06_c.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		val	team9_sneakers_06
+images\team9_sneakers_06_d.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		val	team9_sneakers_06
+images\team9_sneakers_07_a.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_07
+images\team9_sneakers_07_b.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_07
+images\team9_sneakers_07_c.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_07
+images\team9_sneakers_07_d.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_07
+images\team9_sneakers_08_a.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		train	team9_sneakers_08
+images\team9_sneakers_08_b.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		train	team9_sneakers_08
+images\team9_sneakers_08_c.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		train	team9_sneakers_08
+images\team9_sneakers_08_d.jpg	sneakers	color:blue;material:fabric;condition:new,size:medium		train	team9_sneakers_08
+images\team9_sneakers_09_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_09
+images\team9_sneakers_09_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_09
+images\team9_sneakers_09_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_09
+images\team9_sneakers_09_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_09
+images\team9_sneakers_10_a.jpg	sneakers	color:white;material:fabric;condition:new,size:medium		val	team9_sneakers_10
+images\team9_sneakers_10_b.jpg	sneakers	color:white;material:fabric;condition:new,size:medium		val	team9_sneakers_10
+images\team9_sneakers_10_c.jpg	sneakers	color:white;material:fabric;condition:new,size:medium		val	team9_sneakers_10
+images\team9_sneakers_10_d.jpg	sneakers	color:white;material:fabric;condition:new,size:medium		val	team9_sneakers_10
+images\team9_sneakers_11_a.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_11
+images\team9_sneakers_11_b.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_11
+images\team9_sneakers_11_c.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_11
+images\team9_sneakers_11_d.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_11
+images\team9_sneakers_12_a.jpg	sneakers	color:green;material:fabric;condition:new,size:medium		train	team9_sneakers_12
+images\team9_sneakers_12_b.jpg	sneakers	color:green;material:fabric;condition:new,size:medium		train	team9_sneakers_12
+images\team9_sneakers_12_c.jpg	sneakers	color:green;material:fabric;condition:new,size:medium		train	team9_sneakers_12
+images\team9_sneakers_12_d.jpg	sneakers	color:green;material:fabric;condition:new,size:medium		train	team9_sneakers_12
+images\team9_sneakers_13_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_13
+images\team9_sneakers_13_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_13
+images\team9_sneakers_13_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_13
+images\team9_sneakers_13_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_13
+images\team9_sneakers_14_a.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_14
+images\team9_sneakers_14_b.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_14
+images\team9_sneakers_14_c.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_14
+images\team9_sneakers_14_d.jpg	sneakers	color:multicolor;material:fabric;condition:new,size:medium		train	team9_sneakers_14
+images\team9_sneakers_15_a.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_15
+images\team9_sneakers_15_b.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_15
+images\team9_sneakers_15_c.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_15
+images\team9_sneakers_15_d.jpg	sneakers	color:unknown;material:fabric;condition:new,size:medium		train	team9_sneakers_15
