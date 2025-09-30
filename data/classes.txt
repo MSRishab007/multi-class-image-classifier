@@ -1,0 +1,10 @@
+calculator
+cap
+cup
+earphones
+keyboard
+mouse
+scissors
+sneakers
+umbrella
+wristwatch
