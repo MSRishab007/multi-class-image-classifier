@@ -5,7 +5,13 @@ rename_ww.py
 underscore.py
 test.py
 class_labels.xlsx
+<<<<<<< Updated upstream
 final_labels.csv
 labels.csv
 temp
 tempResize - Copy
+=======
+final_labels_fixed.csv
+instance_team9.py
+path_fix.py
+>>>>>>> Stashed changes
