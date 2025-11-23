@@ -1,0 +1,43 @@
+color:
+- black
+- blue
+- brown
+- gold
+- gray
+- green
+- multicolor
+- orange
+- pink
+- purple
+- red
+- silver
+- teal
+- transparent
+- unknown
+- white
+- yellow
+condition:
+- broken
+- deformed
+- mint
+- new
+- old
+- unknown
+- used
+- worn
+material:
+- ceramic
+- fabric
+- glass
+- leather
+- metal
+- plastic
+- rubber
+- synthetic
+- unknown
+- wood
+size:
+- large
+- medium
+- small
+- unknown

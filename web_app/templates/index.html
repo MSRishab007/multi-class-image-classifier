@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+  <title>Milestone 2 Demo</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    h2 { margin-top: 40px; }
+    .section { border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+    .result-img { max-width: 200px; max-height: 200px; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 15px; }
+    .card { border: 1px solid #ddd; padding: 8px; border-radius: 6px; width: 220px; }
+  </style>
+</head>
+<body>
+
+<h1>Everyday Object ViT Demo</h1>
+
+<!-- ================= PREDICTION ================= -->
+<div class="section">
+  <h2>1. Image Classification + Attribute Prediction</h2>
+  <form action="{{ url_for('predict_route') }}" method="post" enctype="multipart/form-data">
+    <label>Model:</label>
+    <select name="model_name">
+      {% for m in model_options %}
+        <option value="{{ m }}" {% if pred_model == m %}selected{% endif %}>{{ m }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Dataset/weights:</label>
+    <select name="dataset_variant">
+      {% for d in dataset_options %}
+        <option value="{{ d }}" {% if pred_dataset == d %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Predict</button>
+  </form>
+
+  {% if pred_image %}
+    <h3>Prediction result</h3>
+    <img src="{{ pred_image }}" class="result-img"><br>
+    <strong>Class:</strong> {{ pred_class }}<br>
+    <strong>Attributes:</strong>
+    <ul>
+      {% for k, v in pred_attrs.items() %}
+        <li>{{ k }}: {{ v }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+<!-- ================= RETRIEVAL ================= -->
+<div class="section">
+  <h2>2. Text → Image Retrieval</h2>
+  <form action="{{ url_for('retrieve_route') }}" method="post">
+    <label>Model:</label>
+    <select name="model_name">
+      {% for m in model_options %}
+        <option value="{{ m }}" {% if retrieval_model == m %}selected{% endif %}>{{ m }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Dataset/weights:</label>
+    <select name="dataset_variant">
+      {% for d in dataset_options %}
+        <option value="{{ d }}" {% if retrieval_dataset == d %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+    <label>Query (e.g. "class=bottle color=blue material=plastic size=small"):</label><br>
+    <input type="text" name="query" size="80" value="{{ retrieval_query or '' }}" required><br><br>
+
+    <label>Top K:</label>
+    <input type="number" name="top_k" value="{{ default_top_k }}" min="1" max="20">
+    <button type="submit">Retrieve</button>
+  </form>
+
+  {% if retrieval_results %}
+    <h3>Top {{ retrieval_results|length }} results</h3>
+    <div class="gallery">
+      {% for r in retrieval_results %}
+        <div class="card">
+          <img src="{{ r.url }}" class="result-img"><br>
+          <strong>{{ r.class_name }}</strong><br>
+          <small>{{ r.image_relpath }}</small>
+          <ul>
+            {% for k,v in r.attributes.items() %}
+              <li>{{ k }}: {{ v }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+</body>
+</html>
