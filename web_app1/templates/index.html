@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning Project Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #1d4ed8; font-weight: 600; }
+        .tab-inactive { color: #6b7280; }
+        .tab-inactive:hover { color: #374151; }
+        /* Hide scrollbar for gallery */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body class="text-gray-800">
+
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Deep Learning Project Demo</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">Prediction and Retrieval</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="flex border-b border-gray-200 mb-8">
+            <button onclick="switchTab('predict')" id="tab-predict-btn" class="px-6 py-3 text-sm focus:outline-none tab-active transition-colors">
+                <i class="fa-solid fa-camera mr-2"></i> Predict Image
+            </button>
+            <button onclick="switchTab('retrieve')" id="tab-retrieve-btn" class="px-6 py-3 text-sm focus:outline-none tab-inactive transition-colors">
+                <i class="fa-solid fa-search mr-2"></i> Retrieve Image
+            </button>
+        </div>
+
+        <section id="predict-tab" class="block animate-fade-in">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-1 h-fit">
+                    <h2 class="text-lg font-semibold mb-4">Configuration</h2>
+                    <form action="{{ url_for('predict_route') }}" method="post" enctype="multipart/form-data" class="space-y-5">
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Model</label>
+                                <div class="relative">
+                                    <select name="model_name" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-gray-50 border">
+                                        {% for m in model_options %}
+                                            <option value="{{ m }}" {% if pred_model == m %}selected{% endif %}>{{ m|upper }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-500 uppercase mb-1">Dataset</label>
+                                <select name="dataset_variant" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-gray-50 border">
+                                    {% for d in dataset_options %}
+                                        <option value="{{ d }}" {% if pred_dataset == d %}selected{% endif %}>{{ d|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Image</label>
+                            <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:bg-gray-50 transition cursor-pointer relative group">
+                                <div class="space-y-1 text-center">
+                                    <i class="fa-solid fa-cloud-arrow-up text-gray-400 text-3xl mb-2 group-hover:text-blue-500 transition"></i>
+                                    <div class="text-sm text-gray-600">
+                                        <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none">
+                                            <span>Upload a file</span>
+                                            <input id="file-upload" name="image" type="file" accept="image/*" class="sr-only" required onchange="previewImage(event)">
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="image-preview-container" class="hidden mt-4 relative rounded-lg overflow-hidden border border-gray-200">
+                            <img id="image-preview" src="#" alt="Preview" class="w-full h-48 object-cover">
+                            <div class="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 m-2 rounded">Ready</div>
+                        </div>
+
+                        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+                            Analyze Object
+                        </button>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 min-h-[400px] flex flex-col">
+                    <h2 class="text-lg font-semibold mb-4">Analysis Results</h2>
+                    
+                    {% if pred_image %}
+                    <div class="flex flex-col md:flex-row gap-8 animate-fade-in">
+                        <div class="w-full md:w-1/2">
+                            <div class="rounded-lg overflow-hidden shadow-md border border-gray-100">
+                                <img src="{{ pred_image }}" class="w-full h-auto object-contain bg-gray-50">
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <div>
+                                <p class="text-sm text-gray-500 uppercase tracking-wider mb-1">Predicted Class</p>
+                                <h3 class="text-3xl font-bold text-gray-900">{{ pred_class }}</h3>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4">
+                                {% for k, v in pred_attrs.items() %}
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 flex justify-between items-center">
+                                    <span class="text-sm font-medium text-gray-500 capitalize">{{ k }}</span>
+                                    <span class="text-sm font-bold text-gray-800 capitalize bg-white px-3 py-1 rounded shadow-sm border">{{ v }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="flex-1 flex flex-col items-center justify-center text-gray-400 space-y-4 h-full">
+                        <i class="fa-solid fa-microchip text-6xl opacity-20"></i>
+                        <p>Upload an image to see classification and attributes.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section id="retrieve-tab" class="hidden animate-fade-in">
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
+                <form action="{{ url_for('retrieve_route') }}" method="post" onsubmit="constructQuery()">
+                    <div class="flex flex-col md:flex-row gap-4 mb-4 items-end">
+                        
+                        <div class="w-full md:w-1/6">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Model</label>
+                            <select name="model_name" class="block w-full text-sm border-gray-300 rounded-md bg-gray-50 border p-2.5">
+                                {% for m in model_options %}
+                                    <option value="{{ m }}" {% if retrieval_model == m %}selected{% endif %}>{{ m }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                         <div class="w-full md:w-1/6">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Dataset</label>
+                            <select name="dataset_variant" class="block w-full text-sm border-gray-300 rounded-md bg-gray-50 border p-2.5">
+                                {% for d in dataset_options %}
+                                    <option value="{{ d }}" {% if retrieval_dataset == d %}selected{% endif %}>{{ d }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="query" id="real-query-input" value="{{ retrieval_query or '' }}">
+
+                        <div class="w-full md:w-3/6 relative">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Text Search (Class/Object)</label>
+                             <input type="text" id="ui-text-search" placeholder="e.g. Bottle, Jug, Can..." 
+                                    class="block w-full text-sm border-gray-300 rounded-md border p-2.5 focus:ring-blue-500 focus:border-blue-500">
+                         </div>
+
+                         <div class="w-full md:w-1/6">
+                             <label class="block text-xs font-medium text-gray-500 mb-1">Results</label>
+                            <input type="number" name="top_k" value="{{ default_top_k }}" min="1" max="20" 
+                                   class="block w-full text-sm border-gray-300 rounded-md border p-2.5">
+                         </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Attribute Filters</span>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <select id="filter-color" class="text-sm border-gray-300 rounded-md p-2 w-full">
+                                <option value="">Any Color</option>
+                                <option value="red">Red</option> <option value="blue">Blue</option> <option value="green">Green</option>
+                                <option value="black">Black</option> <option value="white">White</option> <option value="silver">Silver</option>
+                                <option value="transparent">Transparent</option> <option value="multicolor">Multicolor</option>
+                            </select>
+                            <select id="filter-material" class="text-sm border-gray-300 rounded-md p-2 w-full">
+                                <option value="">Any Material</option>
+                                <option value="plastic">Plastic</option> <option value="metal">Metal</option> <option value="wood">Wood</option>
+                                <option value="glass">Glass</option> <option value="fabric">Fabric</option> <option value="ceramic">Ceramic</option>
+                            </select>
+                            <select id="filter-condition" class="text-sm border-gray-300 rounded-md p-2 w-full">
+                                <option value="">Any Condition</option>
+                                <option value="new">New</option> <option value="used">Used</option> <option value="broken">Broken</option>
+                            </select>
+                            <select id="filter-size" class="text-sm border-gray-300 rounded-md p-2 w-full">
+                                <option value="">Any Size</option>
+                                <option value="small">Small</option> <option value="medium">Medium</option> <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                         <button type="submit" class="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">
+                            <i class="fa-solid fa-magnifying-glass mr-2"></i> Retrieve Images
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {% if retrieval_results %}
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-800">Top {{ retrieval_results|length }} Matches</h3>
+                    <span class="text-sm text-gray-500 bg-white px-3 py-1 rounded-full border">Query: <span class="font-mono text-blue-600">{{ retrieval_query }}</span></span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    {% for r in retrieval_results %}
+                    <div class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+                        <div class="relative aspect-w-1 aspect-h-1 bg-gray-100 overflow-hidden h-48">
+                            <img src="{{ r.url }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                                <p class="text-white font-bold text-sm">{{ r.class_name }}</p>
+                            </div>
+                        </div>
+                        <div class="p-3 text-xs space-y-1">
+                            {% for k,v in r.attributes.items() %}
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 capitalize">{{ k }}</span>
+                                    <span class="font-medium text-gray-800 capitalize">{{ v }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </section>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-gray-400 border-t border-gray-200 mt-10">
+         Made for CS F425 Deep Learning by Team 9, 2025-26.
+    </footer>
+
+    <script>
+        // 1. Tab Switching Logic
+        function switchTab(tabName) {
+            // Update Buttons
+            const predictBtn = document.getElementById('tab-predict-btn');
+            const retrieveBtn = document.getElementById('tab-retrieve-btn');
+            
+            if (tabName === 'predict') {
+                predictBtn.className = "px-6 py-3 text-sm focus:outline-none tab-active transition-colors";
+                retrieveBtn.className = "px-6 py-3 text-sm focus:outline-none tab-inactive transition-colors";
+                document.getElementById('predict-tab').classList.remove('hidden');
+                document.getElementById('retrieve-tab').classList.add('hidden');
+                
+                // Persist in local storage or URL hash if desired, but basic toggle works fine
+                window.localStorage.setItem('activeTab', 'predict');
+            } else {
+                retrieveBtn.className = "px-6 py-3 text-sm focus:outline-none tab-active transition-colors";
+                predictBtn.className = "px-6 py-3 text-sm focus:outline-none tab-inactive transition-colors";
+                document.getElementById('retrieve-tab').classList.remove('hidden');
+                document.getElementById('predict-tab').classList.add('hidden');
+                
+                window.localStorage.setItem('activeTab', 'retrieve');
+            }
+        }
+
+        // 2. Image Preview Logic
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('image-preview');
+                output.src = reader.result;
+                document.getElementById('image-preview-container').classList.remove('hidden');
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // 3. Smart Query Construction
+        // Combines the text input + dropdowns into the "class=x color=y" format expected by Python
+        function constructQuery() {
+            const textInput = document.getElementById('ui-text-search').value.trim();
+            
+            const color = document.getElementById('filter-color').value;
+            const material = document.getElementById('filter-material').value;
+            const condition = document.getElementById('filter-condition').value;
+            const size = document.getElementById('filter-size').value;
+
+            let parts = [];
+
+            // If user typed text, add it (handles class name or free text)
+            if (textInput) {
+                parts.push(textInput); 
+            }
+
+            // Append Attributes in "key=value" format
+            if (color) parts.push(`color=${color}`);
+            if (material) parts.push(`material=${material}`);
+            if (condition) parts.push(`condition=${condition}`);
+            if (size) parts.push(`size=${size}`);
+
+            // Update hidden input
+            document.getElementById('real-query-input').value = parts.join(" ");
+        }
+
+        // 4. Initialize State on Load
+        document.addEventListener("DOMContentLoaded", function() {
+            // Restore tab if previously on Retrieve (e.g., after submitting a search)
+            // We check if 'retrieval_results' exists in the DOM (rendered by Jinja)
+            const hasRetrievalResults = {{ 'true' if retrieval_results else 'false' }};
+            
+            // Check local storage or server state
+            // Priority: If server returned retrieval results, force Retrieve tab.
+            if (hasRetrievalResults) {
+                switchTab('retrieve');
+            } else {
+                // Default or previous state
+                const storedTab = window.localStorage.getItem('activeTab') || 'predict';
+                switchTab(storedTab);
+            }
+        });
+    </script>
+</body>
+</html>
