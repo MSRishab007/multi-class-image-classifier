@@ -2,6 +2,8 @@
 import os
 import sys
 import base64
+import re
+from difflib import get_close_matches
 from functools import lru_cache
 
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
@@ -31,8 +33,11 @@ from model import MultiTaskViT
 # ---------------------------------
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 CLASSES_FILE = os.path.join(DATA_DIR, "classes.txt")  # 10 mapped classes
+DATA_DIR_REALPATH = os.path.realpath(DATA_DIR)
 DEVICE = torch.device("cpu")
 IMG_SIZE = 224
+DEFAULT_MODEL = "deit"
+DEFAULT_DATASET = "ours"
 
 # Map (model_name, dataset_variant) -> config
 # model_name: "deit" | "vit"
@@ -111,6 +116,79 @@ class ModelBundle:
 
 
 @lru_cache(maxsize=None)
+def load_attr_schema(dataset_variant: str):
+    """Load the attribute schema for a dataset variant without loading model weights."""
+    cfg = next(cfg for (model_name, variant), cfg in MODEL_CONFIG.items() if variant == dataset_variant)
+    with open(os.path.join(cfg["data_root"], cfg["attrs_yaml"])) as f:
+        return yaml.safe_load(f)
+
+
+@lru_cache(maxsize=None)
+def load_class_names():
+    with open(CLASSES_FILE) as f:
+        return [line.strip() for line in f if line.strip()]
+
+
+def build_render_context(dataset_variant: str, **kwargs):
+    context = {
+        "model_options": ["deit", "vit"],
+        "dataset_options": ["ours", "pooled"],
+        "default_top_k": 5,
+        "attr_schema": load_attr_schema(dataset_variant),
+        "class_names": load_class_names(),
+    }
+    context.update(kwargs)
+    return context
+
+
+def match_class_name(text: str, class_to_idx):
+    """Best-effort fuzzy class match for free text and misspellings."""
+    normalized = text.lower().strip()
+    if not normalized:
+        return None
+
+    lower_map = {name.lower(): idx for name, idx in class_to_idx.items()}
+
+    if normalized in lower_map:
+        return lower_map[normalized]
+
+    for class_name, idx in lower_map.items():
+        if normalized in class_name or class_name in normalized:
+            return idx
+
+    matches = get_close_matches(normalized, list(lower_map.keys()), n=1, cutoff=0.74)
+    if matches:
+        return lower_map[matches[0]]
+
+    return None
+
+
+def parse_multi_values(value: str):
+    return [part.strip() for part in re.split(r"[,|/]", value) if part.strip()]
+
+
+def find_attr_matches(text: str, attr_name: str, attr_values):
+    """Infer attribute values from free text, returning zero or more indices."""
+    text_lower = text.lower()
+    tokens = set(re.findall(r"[a-z0-9]+", text_lower))
+    matches = []
+
+    for idx, value in enumerate(attr_values):
+        if value == "unknown":
+            continue
+
+        value_lower = value.lower()
+        if value_lower in text_lower:
+            matches.append(idx)
+            continue
+
+        if value_lower in tokens:
+            matches.append(idx)
+
+    return matches
+
+
+@lru_cache(maxsize=None)
 def load_model_bundle(model_name: str, dataset_variant: str) -> ModelBundle:
     """
     Loads model + datasets + builds retrieval index for a given choice.
@@ -142,12 +220,10 @@ def load_model_bundle(model_name: str, dataset_variant: str) -> ModelBundle:
     )
 
     # 2) Attribute schema
-    with open(os.path.join(data_root, attrs_yaml)) as f:
-        attr_schema = yaml.safe_load(f)
+    attr_schema = load_attr_schema(dataset_variant)
 
     # 3) Class names from classes.txt (10 mapped classes)
-    with open(CLASSES_FILE) as f:
-        class_names = [line.strip() for line in f if line.strip()]
+    class_names = load_class_names()
 
     num_classes = len(class_names)
     idx_to_class = {i: name for i, name in enumerate(class_names)}
@@ -214,29 +290,15 @@ def build_index(model, loader):
             sample = loader.dataset[dataset_idx + i]
             row = sample[-1]   # last element should be row / metadata
 
-            # --- existing path logic, but using row from dataset ---
-            if isinstance(row, (list, tuple)):
-                img_path = row[0]  # first field is image path
-            elif isinstance(row, dict):
-                img_path = row.get("image_path", "")
+            if isinstance(row, dict):
+                img_relpath = row.get("image_path", "")
+            elif isinstance(row, (list, tuple)):
+                img_relpath = row[0]
             else:
-                img_path = str(row)
+                img_relpath = str(row)
 
-            # Build an absolute path for the image
-            if os.path.isabs(img_path):
-                img_abs = img_path
-            else:
-                img_abs = os.path.abspath(os.path.join(DATA_DIR, img_path))
-
-            # Normalize slashes
-            img_abs = img_abs.replace("\\", "/")
-
-            # DEBUG: print a couple of paths to verify they are real images
-            if len(index) < 3:
-                print("INDEX SAMPLE PATH:", img_abs)
-
-            # Create a URL-safe token from the absolute path
-            img_token = base64.urlsafe_b64encode(img_abs.encode("utf-8")).decode("ascii")
+            img_relpath = img_relpath.replace("\\", "/")
+            img_token = base64.urlsafe_b64encode(img_relpath.encode("utf-8")).decode("ascii")
 
             index.append({
                 "feat": feats[i].cpu().numpy(),
@@ -245,7 +307,7 @@ def build_index(model, loader):
                 "pred_material": int(preds_attr["material"][i]),
                 "pred_condition": int(preds_attr["condition"][i]),
                 "pred_size": int(preds_attr["size"][i]),
-                "image_abspath": img_abs,
+                "image_relpath": img_relpath,
                 "image_token": img_token,
             })
 
@@ -287,7 +349,7 @@ def parse_query(query: str, bundle: ModelBundle):
         "blue plastic jug"
     into target class index + attribute indices (or None if unspecified).
     """
-    q = query.lower()
+    q = query.lower().strip()
     tokens = q.split()
 
     result = {
@@ -306,36 +368,30 @@ def parse_query(query: str, bundle: ModelBundle):
             value = value.strip()
 
             if key == "class":
-                for cls_name, idx in bundle.class_to_idx.items():
-                    if value in cls_name.lower():
-                        result["class"] = idx
-                        break
+                result["class"] = match_class_name(value, bundle.class_to_idx)
             elif key in bundle.attr_schema:
-                for i, v in enumerate(bundle.attr_schema[key]):
-                    if value == v.lower():
-                        result[key] = i
-                        break
+                matches = []
+                for piece in parse_multi_values(value):
+                    for i, v in enumerate(bundle.attr_schema[key]):
+                        if piece == v.lower():
+                            matches.append(i)
+                if matches:
+                    result[key] = sorted(set(matches))
             found_kv = True
 
-    if found_kv:
-        return result
-
-    # Free-text mode
-    qtext = " " + q + " "
-
-    # class
-    for cls_name, idx in bundle.class_to_idx.items():
-        if cls_name.lower() in qtext:
-            result["class"] = idx
-            break
-
-    # attributes
     for attr in ATTR_NAMES:
-        for i, v in enumerate(bundle.attr_schema[attr]):
-            if v == "unknown":
-                continue
-            if f" {v.lower()} " in qtext:
-                result[attr] = i
+        if result[attr] is not None:
+            continue
+        matches = find_attr_matches(q, attr, bundle.attr_schema[attr])
+        if matches:
+            result[attr] = matches
+
+    if result["class"] is None:
+        class_tokens = [q] + tokens
+        for candidate in class_tokens:
+            class_idx = match_class_name(candidate, bundle.class_to_idx)
+            if class_idx is not None:
+                result["class"] = class_idx
                 break
 
     return result
@@ -356,7 +412,7 @@ def retrieve_images(bundle: ModelBundle, query: str, top_k: int = 5):
 
         for attr in ["color", "material", "condition", "size"]:
             qv = q_dict[attr]
-            if qv is not None and item[f"pred_{attr}"] == qv:
+            if qv is not None and item[f"pred_{attr}"] in qv:
                 score += 0.5
 
         scores.append(score)
@@ -402,9 +458,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def index():
     return render_template(
         "index.html",
-        model_options=["deit", "vit"],
-        dataset_options=["ours", "pooled"],
-        default_top_k=5,
+        **build_render_context(DEFAULT_DATASET, pred_model=DEFAULT_MODEL, pred_dataset=DEFAULT_DATASET, retrieval_model=DEFAULT_MODEL, retrieval_dataset=DEFAULT_DATASET),
     )
 
 
@@ -426,12 +480,14 @@ def predict_route():
 
     return render_template(
         "index.html",
-        model_options=["deit", "vit"],
-        dataset_options=["ours", "pooled"],
-        default_top_k=5,
+        **build_render_context(
+            dataset_variant,
+            pred_model=model_name,
+            pred_dataset=dataset_variant,
+            retrieval_model=model_name,
+            retrieval_dataset=dataset_variant,
+        ),
         pred_image=url_for("uploaded_file", filename=filename),
-        pred_model=model_name,
-        pred_dataset=dataset_variant,
         pred_class=class_name,
         pred_attrs=attrs_pred,
     )
@@ -459,12 +515,15 @@ def retrieve_route():
 
     return render_template(
         "index.html",
-        model_options=["deit", "vit"],
-        dataset_options=["ours", "pooled"],
-        default_top_k=top_k,
+        **build_render_context(
+            dataset_variant,
+            pred_model=model_name,
+            pred_dataset=dataset_variant,
+            retrieval_model=model_name,
+            retrieval_dataset=dataset_variant,
+            default_top_k=top_k,
+        ),
         retrieval_query=query,
-        retrieval_model=model_name,
-        retrieval_dataset=dataset_variant,
         retrieval_results=results,
     )
 
@@ -482,20 +541,16 @@ def serve_data_image(path):
     """
     from flask import abort
 
-    # DEBUG: see what token we got
-    print(">>> /data got token:", path)
-
     try:
-        full_path = base64.urlsafe_b64decode(path.encode("ascii")).decode("utf-8")
+        rel_path = base64.urlsafe_b64decode(path.encode("ascii")).decode("utf-8")
     except Exception as e:
-        print("!!! decode error:", e)
         return abort(400)
 
-    # Normalize slashes
-    full_path = full_path.replace("\\", "/")
+    rel_path = rel_path.replace("\\", "/")
+    full_path = os.path.realpath(os.path.join(DATA_DIR, rel_path))
 
-    # DEBUG: see what file path we resolved to and whether it exists
-    print(">>> decoded full_path:", full_path, "exists:", os.path.exists(full_path))
+    if os.path.commonpath([DATA_DIR_REALPATH, full_path]) != DATA_DIR_REALPATH:
+        return abort(404)
 
     if not os.path.exists(full_path):
         return abort(404)
@@ -503,4 +558,7 @@ def serve_data_image(path):
     return send_file(full_path)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", "7860"))
+    host = os.environ.get("HOST", "0.0.0.0")
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(host=host, port=port, debug=debug)

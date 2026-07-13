@@ -1,4 +1,8 @@
+flask
+gunicorn
+numpy
 pillow
-gradio
 pyyaml
-seaborn
+timm
+torch
+torchvision

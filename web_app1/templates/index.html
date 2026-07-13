@@ -11,6 +11,85 @@
         .tab-active { border-bottom: 2px solid #3b82f6; color: #1d4ed8; font-weight: 600; }
         .tab-inactive { color: #6b7280; }
         .tab-inactive:hover { color: #374151; }
+        .multiselect-button {
+            width: 100%;
+            min-height: 2.75rem;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            background: #fff;
+            color: #111827;
+            text-align: left;
+            font-size: 0.875rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+        .multiselect-button:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .multiselect-menu {
+            position: absolute;
+            z-index: 20;
+            top: calc(100% + 0.35rem);
+            left: 0;
+            width: 100%;
+            max-height: 15rem;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
+            padding: 0.5rem;
+        }
+        .multiselect-option {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.45rem 0.5rem;
+            border-radius: 0.45rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #111827;
+        }
+        .multiselect-option:hover { background: #f3f4f6; }
+        .multiselect-checkbox {
+            width: 0.95rem;
+            height: 0.95rem;
+            accent-color: #4f46e5;
+        }
+        .multiselect-content {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            min-height: 1.4rem;
+        }
+        .multiselect-placeholder {
+            color: #111827;
+        }
+        .multiselect-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.55rem;
+            border-radius: 9999px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-right: 0.1rem;
+        }
+        .multiselect-chip-count {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+            background: #e2e8f0;
+            color: #334155;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
         /* Hide scrollbar for gallery */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -162,8 +241,13 @@
 
                         <div class="w-full md:w-3/6 relative">
                             <label class="block text-xs font-medium text-gray-500 mb-1">Text Search (Class/Object)</label>
-                             <input type="text" id="ui-text-search" placeholder="Enter the Object Name" 
+                             <input type="text" id="ui-text-search" list="class-options" placeholder="Enter the Object Name" 
                                     class="block w-full text-sm border-gray-300 rounded-md border p-2.5 focus:ring-blue-500 focus:border-blue-500">
+                             <datalist id="class-options">
+                                {% for class_name in class_names %}
+                                    <option value="{{ class_name }}"></option>
+                                {% endfor %}
+                             </datalist>
                          </div>
 
                          <div class="w-full md:w-1/6">
@@ -176,26 +260,60 @@
                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                         <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Attribute Filters</span>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <select id="filter-color" class="text-sm border-gray-300 rounded-md p-2 w-full">
-                                <option value="">Any Color</option>
-                                <option value="red">Red</option> <option value="blue">Blue</option> <option value="green">Green</option>
-                                <option value="black">Black</option> <option value="white">White</option> <option value="silver">Silver</option>
-                                <option value="transparent">Transparent</option> <option value="multicolor">Multicolor</option>
-                            </select>
-                            <select id="filter-material" class="text-sm border-gray-300 rounded-md p-2 w-full">
-                                <option value="">Any Material</option>
-                                <option value="plastic">Plastic</option> <option value="metal">Metal</option> <option value="wood">Wood</option>
-                                <option value="glass">Glass</option> <option value="fabric">Fabric</option> <option value="ceramic">Ceramic</option>
-                            </select>
-                            <select id="filter-condition" class="text-sm border-gray-300 rounded-md p-2 w-full">
-                                <option value="">Any Condition</option>
-                                <option value="new">New</option> <option value="used">Used</option> <option value="broken">Broken</option>
-                            </select>
-                            <select id="filter-size" class="text-sm border-gray-300 rounded-md p-2 w-full">
-                                <option value="">Any Size</option>
-                                <option value="small">Small</option> <option value="medium">Medium</option> <option value="large">Large</option>
-                            </select>
+                            <div class="relative" data-multiselect="color">
+                                <button type="button" class="multiselect-button" onclick="toggleMultiMenu('color')" id="button-color">
+                                    <span class="multiselect-content" id="content-color"><span class="multiselect-placeholder">Any Color</span></span>
+                                </button>
+                                <div class="multiselect-menu hidden" id="menu-color">
+                                    {% for value in attr_schema['color'] %}
+                                        <label class="multiselect-option">
+                                            <input type="checkbox" class="multiselect-checkbox" data-attr="color" value="{{ value }}" onchange="updateMultiLabel('color')">
+                                            <span>{{ value|title }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="relative" data-multiselect="material">
+                                <button type="button" class="multiselect-button" onclick="toggleMultiMenu('material')" id="button-material">
+                                    <span class="multiselect-content" id="content-material"><span class="multiselect-placeholder">Any Material</span></span>
+                                </button>
+                                <div class="multiselect-menu hidden" id="menu-material">
+                                    {% for value in attr_schema['material'] %}
+                                        <label class="multiselect-option">
+                                            <input type="checkbox" class="multiselect-checkbox" data-attr="material" value="{{ value }}" onchange="updateMultiLabel('material')">
+                                            <span>{{ value|title }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="relative" data-multiselect="condition">
+                                <button type="button" class="multiselect-button" onclick="toggleMultiMenu('condition')" id="button-condition">
+                                    <span class="multiselect-content" id="content-condition"><span class="multiselect-placeholder">Any Condition</span></span>
+                                </button>
+                                <div class="multiselect-menu hidden" id="menu-condition">
+                                    {% for value in attr_schema['condition'] %}
+                                        <label class="multiselect-option">
+                                            <input type="checkbox" class="multiselect-checkbox" data-attr="condition" value="{{ value }}" onchange="updateMultiLabel('condition')">
+                                            <span>{{ value|title }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="relative" data-multiselect="size">
+                                <button type="button" class="multiselect-button" onclick="toggleMultiMenu('size')" id="button-size">
+                                    <span class="multiselect-content" id="content-size"><span class="multiselect-placeholder">Any Size</span></span>
+                                </button>
+                                <div class="multiselect-menu hidden" id="menu-size">
+                                    {% for value in attr_schema['size'] %}
+                                        <label class="multiselect-option">
+                                            <input type="checkbox" class="multiselect-checkbox" data-attr="size" value="{{ value }}" onchange="updateMultiLabel('size')">
+                                            <span>{{ value|title }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
+                        <p class="mt-2 text-[11px] text-gray-500">Choose one or more values per filter.</p>
                     </div>
 
                     <div class="mt-4 flex justify-end">
@@ -279,15 +397,60 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
+        function selectedValues(selectId) {
+            const select = document.getElementById(selectId);
+            return Array.from(select.selectedOptions)
+                .map(option => option.value)
+                .filter(value => value && value.trim().length > 0);
+        }
+
+        function toggleMultiMenu(attr) {
+            const menu = document.getElementById(`menu-${attr}`);
+            const shouldOpen = menu.classList.contains('hidden');
+
+            document.querySelectorAll('.multiselect-menu').forEach((panel) => panel.classList.add('hidden'));
+
+            if (shouldOpen) {
+                menu.classList.remove('hidden');
+            }
+        }
+
+        function getCheckedValues(attr) {
+            return Array.from(document.querySelectorAll(`.multiselect-checkbox[data-attr="${attr}"]`))
+                .filter((input) => input.checked)
+                .map((input) => input.value);
+        }
+
+        function updateMultiLabel(attr) {
+            const values = getCheckedValues(attr);
+            const content = document.getElementById(`content-${attr}`);
+
+            if (!values.length) {
+                content.innerHTML = `<span class="multiselect-placeholder">Any ${attr.charAt(0).toUpperCase() + attr.slice(1)}</span>`;
+            } else if (values.length === 1) {
+                content.innerHTML = `<span class="multiselect-chip">${values[0].charAt(0).toUpperCase() + values[0].slice(1)}</span>`;
+            } else {
+                const chips = values.slice(0, 2).map((value) => `<span class="multiselect-chip">${value.charAt(0).toUpperCase() + value.slice(1)}</span>`).join('');
+                const remaining = values.length - 2;
+                content.innerHTML = `${chips}${remaining > 0 ? `<span class="multiselect-chip-count">+${remaining}</span>` : ''}`;
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('[data-multiselect]')) {
+                document.querySelectorAll('.multiselect-menu').forEach((panel) => panel.classList.add('hidden'));
+            }
+        });
+
         // 3. Smart Query Construction
         // Combines the text input + dropdowns into the "class=x color=y" format expected by Python
         function constructQuery() {
             const textInput = document.getElementById('ui-text-search').value.trim();
             
-            const color = document.getElementById('filter-color').value;
-            const material = document.getElementById('filter-material').value;
-            const condition = document.getElementById('filter-condition').value;
-            const size = document.getElementById('filter-size').value;
+            const color = getCheckedValues('color');
+            const material = getCheckedValues('material');
+            const condition = getCheckedValues('condition');
+            const size = getCheckedValues('size');
 
             let parts = [];
 
@@ -297,10 +460,10 @@
             }
 
             // Append Attributes in "key=value" format
-            if (color) parts.push(`color=${color}`);
-            if (material) parts.push(`material=${material}`);
-            if (condition) parts.push(`condition=${condition}`);
-            if (size) parts.push(`size=${size}`);
+            if (color.length) parts.push(`color=${color.join(',')}`);
+            if (material.length) parts.push(`material=${material.join(',')}`);
+            if (condition.length) parts.push(`condition=${condition.join(',')}`);
+            if (size.length) parts.push(`size=${size.join(',')}`);
 
             // Update hidden input
             document.getElementById('real-query-input').value = parts.join(" ");

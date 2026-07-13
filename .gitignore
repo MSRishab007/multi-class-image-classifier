@@ -1,35 +1,16 @@
-dl_udemy
-prefix_team9.py
-reindex.py
-rename_ww.py
-underscore.py
-test.py
-class_labels.xlsx
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-final_labels.csv
-labels.csv
-temp
-tempResize - Copy
-=======
-final_labels_fixed.csv
-instance_team9.py
-path_fix.py
->>>>>>> Stashed changes
-=======
-final_labels_fixed.csv
-instance_team9.py
-path_fix.py
->>>>>>> Stashed changes
-.pyc
-=======
-final_labels_fixed.csv
-instance_team9.py
-path_fix.py
->>>>>>> Stashed changes
-rename_images.py
-gallery_ta.py
-labels_path.csv
-png_to_pdf.py
-galleries
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+*.log
+
+uploads/
